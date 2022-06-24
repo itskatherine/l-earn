@@ -15,7 +15,18 @@ CREATE TABLE all_words(
     list_id INT REFERENCES spelling_lists(list_id) NOT NULL, 
     word VARCHAR
 );
-SELECT * FROM all_words;
+--SELECT * FROM all_words;
+
+
+
+
+
+
+
+
+
+
+
 
 CREATE TABLE users(
     users_id SERIAL PRIMARY KEY, 
@@ -26,20 +37,27 @@ CREATE TABLE users(
     amount_earned INT,
     total_amount INT
 );
-SELECT * FROM users;
+--SELECT * FROM users;
 
 CREATE TABLE words_bank(
     users_id INT REFERENCES users(users_id),
     word_id INT REFERENCES all_words(word_id),
     used BOOLEAN
 );
-SELECT * FROM words_bank;
+--SELECT * FROM words_bank;
 
-INSERT INTO spelling_lists
-(list_difficulty, list_name)
-VALUES 
-('Easy', 'Grade 1'),
-('Medium', 'Grade 2');
+
+
+
+
+
+-- INSERT INTO spelling_lists
+-- (list_difficulty, list_name)
+-- VALUES 
+-- ('Easy', 'Grade 1'),
+-- ('Medium', 'Grade 2');
+
+---SELECT * FROM spelling_lists;
 
 -- -- INSERT INTO all_words(list_id, word)
 -- -- VALUES 
