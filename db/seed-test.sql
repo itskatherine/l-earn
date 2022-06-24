@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS l_earn_test;
+CREATE DATABASE l_earn_test;

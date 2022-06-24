@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "seed-dev": "psql -f ./db/seed-dev.sql",
+    "print": "psql -f ./db/seed-dev.sql > example.txt"
   },
   "repository": {
     "type": "git",
