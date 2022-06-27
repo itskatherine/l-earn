@@ -2,6 +2,7 @@ module.exports = [
   {
     name: "Grade 1 spelling",
     difficulty: "Medium",
+    list_id: 1,
     words: [
       "the",
       "we",

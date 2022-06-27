@@ -1,6 +1,9 @@
 const db = require("../index.js");
 const format = require("pg-format");
-const { createRef } = require("./utils");
+const { createRef, spelling_lists_2 } = require("./utils");
+
+const spelling_list_data = spelling_lists_2
+//console.log(spelling_list_data)
 
 const seed = async (data) => {
   const { userData, spellingListsData, allWordsData } = data;
@@ -14,12 +17,15 @@ CREATE TABLE spelling_lists(
     list_id SERIAL PRIMARY KEY,
     list_difficulty VARCHAR NOT NULL,
     list_name VARCHAR);
+    
 `);
 
   const allWordsTablePromise = db.query(`CREATE TABLE all_words(
     word_id SERIAL PRIMARY KEY, 
-    list_id INT REFERENCES spelling_lists(list_id) NOT NULL, 
-    word VARCHAR
+    list_id INT,
+    word VARCHAR,
+    difficulty VARCHAR,
+    name VARCHAR
 );
 `);
 
@@ -78,12 +84,62 @@ CREATE TABLE spelling_lists(
     .then((result) => result.rows);
 
   const allWordsQueryStr = format(
-    `INSERT INTO all_words (list_id, word) VALUES %L RETURNING *;`,
-    allWordsData.map((word) => [word])
+    `INSERT INTO all_words (word) VALUES %L RETURNING *;`,
+    spelling_list_data.map((wordlist) =>
+      wordlist.map((word) =>  [word.word].flat().flat()))
   );
+    
+  console.log(spelling_list_data)
+  
+  
+  const allWordsRows = db
+      .query(allWordsQueryStr)
+      .then((result) => result.rows);
+
+
+
+
   return db.query(insertUsersQueryStr).then((result) => result.rows);
+
+
 
   //const userLookup = createRef(userRows, "user_id", "first_name");
 };
 
 module.exports = seed;
+
+
+//   [
+//   {
+//     name: "Grade 4 spelling",
+//     difficulty: "Harder",
+//     list_id: 0,
+//     word: "recognise",
+//   },
+// ]
+// [
+//   {
+//     name: "Grade 4 spelling",
+//     difficulty: "Harder",
+//     list_id: 1,
+//     word: "recognise",
+//   },
+// ]
+
+// [
+//   {
+//     name: "Grade 4 spelling",
+//     difficulty: "Harder",
+//     list_id: 2,
+//     word: "recognise",
+//   },
+// ]
+// [
+//   {
+//     name: "Grade 4 spelling",
+//     difficulty: "Harder",
+//     list_id: 3,
+//     word: "recognise",
+//   },
+// ]
+// ]
