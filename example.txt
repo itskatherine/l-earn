@@ -1,11 +1,23 @@
 DROP DATABASE
 CREATE DATABASE
-You are now connected to database "l_earn" as user "katherine".
+You are now connected to database "l_earn" as user "toby".
 CREATE TABLE
+ list_id | list_difficulty | list_name 
+---------+-----------------+-----------
+(0 rows)
+
 CREATE TABLE
  word_id | list_id | word 
 ---------+---------+------
 (0 rows)
 
 CREATE TABLE
+ users_id | first_name | last_name | email | pass_word | amount_earned | total_amount 
+----------+------------+-----------+-------+-----------+---------------+--------------
+(0 rows)
+
 CREATE TABLE
+ users_id | word_id | list_id | word | used 
+----------+---------+---------+------+------
+(0 rows)
+
