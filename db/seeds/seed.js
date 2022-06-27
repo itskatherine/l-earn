@@ -1,6 +1,6 @@
 const db = require("../index.js");
 const format = require("pg-format");
-const {createRef} = require("./utils")
+const { createRef } = require("./utils");
 
 const seed = async (data) => {
   const { userData, spellingListsData, allWordsData } = data;
@@ -9,11 +9,10 @@ const seed = async (data) => {
   await db.query(`DROP TABLE IF EXISTS all_words`);
   await db.query(`DROP TABLE IF EXISTS spelling_lists`);
 
-
   const spellingListsTablePromise = db.query(`
 CREATE TABLE spelling_lists(
     list_id SERIAL PRIMARY KEY,
-     list_difficulty VARCHAR NOT NULL,
+    list_difficulty VARCHAR NOT NULL,
     list_name VARCHAR);
 `);
 
@@ -70,18 +69,21 @@ CREATE TABLE spelling_lists(
       ]
     )
   );
+  const insertSpellingListsQueryStr = format(
+    `INSERT INTO spelling_lists(list_difficulty, list_name) VALUES %L RETURNING *;`,
+    spellingListsData.map(({ difficulty, name }) => [difficulty, name])
+  );
+  const spellingListRows = db
+    .query(insertSpellingListsQueryStr)
+    .then((result) => result.rows);
 
-  return db
-    .query(insertUsersQueryStr)
-    .then((result) => result.rows)
-    .then((result) => console.log(result));
-  
+  const allWordsQueryStr = format(
+    `INSERT INTO all_words (list_id, word) VALUES %L RETURNING *;`,
+    allWordsData.map((word) => [word])
+  );
+  return db.query(insertUsersQueryStr).then((result) => result.rows);
 
-  
   //const userLookup = createRef(userRows, "user_id", "first_name");
 };
 
-
-
-
-module.exports = seed
+module.exports = seed;
