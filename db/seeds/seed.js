@@ -2,7 +2,7 @@ const db = require("../index.js");
 const format = require("pg-format");
 const { createRef, spelling_lists_2 } = require("./utils");
 
-const spelling_list_data = spelling_lists_2
+const spelling_list_data = spelling_lists_2;
 //console.log(spelling_list_data)
 
 const seed = async (data) => {
@@ -83,63 +83,31 @@ CREATE TABLE spelling_lists(
     .query(insertSpellingListsQueryStr)
     .then((result) => result.rows);
 
+  //This is how I've formatted the word data, may want to refactor
+  //into something a bit cleaner
+  const allWordData = [];
+  for (let i = 0; i < spelling_list_data.length; i++) {
+    for (let j = 0; j < spelling_list_data[i].length; j++) {
+      let currentWord = spelling_list_data[i][j];
+      allWordData.push([
+        currentWord.word,
+        currentWord.list_id,
+        currentWord.difficulty,
+        currentWord.name,
+      ]);
+    }
+  }
+
   const allWordsQueryStr = format(
-    `INSERT INTO all_words (word) VALUES %L RETURNING *;`,
-    spelling_list_data.map((wordlist) =>
-      wordlist.map((word) =>  [word.word].flat().flat()))
+    `INSERT INTO all_words (word, list_id, difficulty, name) VALUES %L RETURNING *;`,
+    allWordData
   );
-    
-  console.log(spelling_list_data)
-  
-  
-  const allWordsRows = db
-      .query(allWordsQueryStr)
-      .then((result) => result.rows);
 
-
-
+  const allWordsRows = db.query(allWordsQueryStr).then((result) => result.rows);
 
   return db.query(insertUsersQueryStr).then((result) => result.rows);
-
-
 
   //const userLookup = createRef(userRows, "user_id", "first_name");
 };
 
 module.exports = seed;
-
-
-//   [
-//   {
-//     name: "Grade 4 spelling",
-//     difficulty: "Harder",
-//     list_id: 0,
-//     word: "recognise",
-//   },
-// ]
-// [
-//   {
-//     name: "Grade 4 spelling",
-//     difficulty: "Harder",
-//     list_id: 1,
-//     word: "recognise",
-//   },
-// ]
-
-// [
-//   {
-//     name: "Grade 4 spelling",
-//     difficulty: "Harder",
-//     list_id: 2,
-//     word: "recognise",
-//   },
-// ]
-// [
-//   {
-//     name: "Grade 4 spelling",
-//     difficulty: "Harder",
-//     list_id: 3,
-//     word: "recognise",
-//   },
-// ]
-// ]
