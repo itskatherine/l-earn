@@ -20,14 +20,15 @@ describe("1. GET /api/word-lists", () => {
  })
  test("should return an array of word-list objects", () => {
   return request(app).get("/api/word-lists").expect(200).then((res) => {
-   const { body: { wordLists } } = res
+   const wordLists = res.body;
    const results = Array.isArray(wordLists);
    expect(results).toBe(true)
      })
  })
  test('should return an array of object with the correct key value pairs', () => {
-  return request(app).get("/api/word-lists").expect(200).then((res) => {
-    const { body: { wordLists } } = res;
+   return request(app).get("/api/word-lists").expect(200).then((res) => {
+   
+    const wordLists = res.body
     expect(wordLists).toHaveLength(4)
     wordLists.forEach((wordList) => {
     expect.objectContaining({
@@ -51,11 +52,15 @@ describe("1. GET /api/word-lists", () => {
 describe("GET /api/word-lists/:List_difficulty", () => {
   test("200: Returns an word lists by difficulty", () => {
     return request(app)
-      .get("/api/word-lists/easy")
+      .get("/api/word-lists?word_list=Easy")
       .expect(200)
       .then((res) => {
-        console.log(res.body)
-        // expect(body).toEqual
+        expect(res.body).toEqual([{
+          list_id: 1,
+          list_difficulty: "Easy",
+          list_name: "Grade 1 spelling",
+        }]);
+        
 
       });
   });

@@ -1,13 +1,13 @@
 module.exports = [
   {
     name: "Grade 1 spelling",
-    difficulty: "Medium",
+    difficulty: "Easy",
     list_id: 0,
     words: ["the", "we", "pull", "a", "no", "full", "do"],
   },
   {
     name: "Grade 2 spelling",
-    difficulty: "Hard",
+    difficulty: "Medium",
     list_id: 1,
     words: ["door", "everybody", "improve", "floor", "even", "sure"],
   },
