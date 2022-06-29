@@ -52,16 +52,25 @@ describe("1. GET /api/word-lists", () => {
 describe("GET /api/word-lists/:List_difficulty", () => {
   test("200: Returns an word lists by difficulty", () => {
     return request(app)
-      .get("/api/word-lists?word_list=Easy")
+      .get("/api/word-lists?word_list=Hard")
       .expect(200)
       .then((res) => {
         expect(res.body).toEqual([{
-          list_id: 1,
-          list_difficulty: "Easy",
-          list_name: "Grade 1 spelling",
+          list_id: 3,
+          list_difficulty: "Hard",
+          list_name: "Grade 3 spelling",
         }]);
         
 
       });
+  });
+  test('should return 400 and message "bad query" when passed an invalid query', () => {
+    return request(app)
+      .get("/api/word-lists?word_list=Hippo")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("invalid query");
+      });
+    
   });
 });
