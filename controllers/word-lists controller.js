@@ -1,9 +1,4 @@
-const { fetchWordLists, fetchWordListsByDifficulty } = require("../models/word-lists model")
-
-
-
-
-
+const { fetchWordLists, insertWords } = require("../models/word-lists model")
 
 exports.getWordLists = (req, res, next) => {
 
@@ -17,3 +12,18 @@ exports.getWordLists = (req, res, next) => {
       next(err);
     });
 }
+
+
+exports.postWords = (req, res, next) => {
+  const params = req.params;
+console.log(params, "controller");
+
+  insertWords(params)
+    .then(() => {
+      res.status(201).send({ msg: "List added" });
+    })
+    .catch((err) => {
+      
+      next(err);
+    });
+};

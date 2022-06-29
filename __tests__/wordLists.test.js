@@ -74,3 +74,14 @@ describe("GET /api/word-lists/:List_difficulty", () => {
     
   });
 });
+
+describe.only('api/users/:user_id/:list_id post words to user word list', () => {
+  test('should return 201 and message list added when given valid user and and list id', () => {
+    return request(app)
+      .post("/api/users/1/1")
+      .expect(201)
+      .then(({body}) => {
+        expect(body.msg).toBe("List added");
+      });
+  });
+    });
