@@ -3,26 +3,29 @@ const cors = require("cors");
 const app = express();
 const {
   getWordLists,
-  postWords
-  } = require("./controllers/word-lists controller");
+  postWords,
+} = require("./controllers/word-lists controller");
+const { postUser } = require("./controllers/user controller");
 
 app.use(cors());
 app.use(express.json());
 
 app.get("/api/word-lists", getWordLists);
-app.post("/api/users/:user_id/:list_id", postWords)
+app.post("/api/users/:user_id/:list_id", postWords);
+app.post("/api/users/:user_id", postUser);
 
-console.log("app")
 app.all("/*", (req, res) => {
-  res.status(404).send({ msg: "Route not found" });
+  res.status(404).send({ msg: "Not found" });
 });
 
 app.use((err, req, res, next) => {
-  if (err.code === "23503") {
-    res.status(404).send({ msg: "invalid user" });
-  } else {
-    next(err);
-  }
+  const badRequestCodes = ["22P02", "23502", "42601"];
+  const notFoundCodes = ["23503"];
+  if (badRequestCodes.includes(err.code)) {
+    res.status(400).send({ msg: "Bad request" });
+  } else if (notFoundCodes.includes(err.code)) {
+    res.status(404).send({ msg: "Not Found" });
+  } else next(err);
 });
 
 app.use((err, req, res, next) => {
@@ -37,6 +40,4 @@ app.use((err, req, res, next) => {
   res.sendStatus(500);
 });
 
-
 module.exports = app;
-
