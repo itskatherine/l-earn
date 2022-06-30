@@ -5,7 +5,7 @@ const {
   getWordLists,
   postWords,
 } = require("./controllers/word-lists controller");
-const { postUser } = require("./controllers/user controller");
+const { postUser, getUserWords } = require("./controllers/user controller");
 
 app.use(cors());
 app.use(express.json());
@@ -13,7 +13,8 @@ app.use(express.json());
 app.get("/api/word-lists", getWordLists);
 app.post("/api/users/:user_id/:list_id", postWords);
 app.post("/api/users/:user_id", postUser);
-
+app.get("/api/users/:user_id/word_bank", getUserWords);
+console.log("app")
 app.all("/*", (req, res) => {
   res.status(404).send({ msg: "Not found" });
 });
