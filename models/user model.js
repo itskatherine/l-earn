@@ -48,14 +48,9 @@ exports.removeListById = (list_id) => {
   const numberOfDeletions = db
     .query(`DELETE FROM user_words WHERE list_id = $1;`, [list_id])
     .then((result) => {
-      console.log(result);
-      let lists = getLists();
-      let list = lists.filter((list) => {
-        list.list_id = list_id;
-        console.log(lists);
-      });
+     
 
-      return `${list.list_name} was successfully deleted`;
+      return result.rowCount
     });
 
   if (!numberOfDeletions) {
@@ -63,9 +58,4 @@ exports.removeListById = (list_id) => {
   }
 };
 
-function getLists() {
-  return db.query(`select * from spelling_lists ;`).then((res) => {
-    console.log(res.rows);
-    return res.rows;
-  });
-}
+
