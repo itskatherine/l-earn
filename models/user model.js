@@ -48,14 +48,10 @@ exports.removeListById = (list_id) => {
   const numberOfDeletions = db
     .query(`DELETE FROM user_words WHERE list_id = $1;`, [list_id])
     .then((result) => {
-     
-
-      return result.rowCount
+      return result.rowCount + "hello";
     });
 
   if (!numberOfDeletions) {
     return Promise.reject({ status: 404, msg: "comment not found" });
   }
 };
-
-

@@ -29,6 +29,8 @@ exports.patchAmountByUser = (req, res, next) => {
 
 exports.deleteList = (req, res) => {
   const { list_id } = req.params;
-  removeListById(list_id);
+  removeListById(res);
+  res.text = "test";
+  console.log(res.text);
   res.sendStatus(204);
 };
