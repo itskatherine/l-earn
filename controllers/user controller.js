@@ -2,6 +2,7 @@ const {
   insertUser,
   fetchUserWords,
   updateAmountByUser,
+  removeListById,
 } = require("../models/user model");
 
 exports.postUser = (req, res) => {
@@ -24,4 +25,10 @@ exports.patchAmountByUser = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+};
+
+exports.deleteList = (req, res) => {
+  const { list_id } = req.params;
+  removeListById(list_id);
+  res.sendStatus(204);
 };

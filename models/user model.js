@@ -43,3 +43,29 @@ exports.updateAmountByUser = (amount_earned, total_amount, user_id) => {
       return response;
     });
 };
+
+exports.removeListById = (list_id) => {
+  const numberOfDeletions = db
+    .query(`DELETE FROM user_words WHERE list_id = $1;`, [list_id])
+    .then((result) => {
+      console.log(result);
+      let lists = getLists();
+      let list = lists.filter((list) => {
+        list.list_id = list_id;
+        console.log(lists);
+      });
+
+      return `${list.list_name} was successfully deleted`;
+    });
+
+  if (!numberOfDeletions) {
+    return Promise.reject({ status: 404, msg: "comment not found" });
+  }
+};
+
+function getLists() {
+  return db.query(`select * from spelling_lists ;`).then((res) => {
+    console.log(res.rows);
+    return res.rows;
+  });
+}

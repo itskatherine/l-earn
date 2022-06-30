@@ -9,6 +9,7 @@ const {
   postUser,
   getUserWords,
   patchAmountByUser,
+  deleteList,
 } = require("./controllers/user controller");
 
 app.use(cors());
@@ -19,13 +20,13 @@ app.post("/api/users/:user_id/:list_id", postWords);
 app.post("/api/users/:user_id", postUser);
 app.get("/api/users/:user_id/word_bank", getUserWords);
 app.patch("/api/users/:user_id", patchAmountByUser);
+app.delete("/api/users/:user_id/:list_id", deleteList);
 
 app.all("/*", (req, res) => {
   res.status(404).send({ msg: "Not found" });
 });
 
 app.use((err, req, res, next) => {
-  console.log(err);
   const badRequestCodes = ["22P02", "23502", "42601"];
   const notFoundCodes = ["23503"];
   if (badRequestCodes.includes(err.code)) {
