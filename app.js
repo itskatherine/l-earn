@@ -4,6 +4,7 @@ const app = express();
 const {
   getWordLists,
   postWords,
+  getWordListsById,
 } = require("./controllers/word-lists controller");
 const {
   postUser,
@@ -11,6 +12,7 @@ const {
   patchAmountByUser,
   deleteList,
   getUserById,
+  
 } = require("./controllers/user controller");
 
 app.use(cors());
@@ -23,6 +25,7 @@ app.get("/api/users/:user_id/word_bank", getUserWords);
 app.patch("/api/users/:user_id", patchAmountByUser);
 app.delete("/api/users/:user_id/:list_id", deleteList);
 app.get("/api/users/:user_id", getUserById);
+app.get("/api/word-lists/:list_id", getWordListsById);
 
 app.all("/*", (req, res) => {
   res.status(404).send({ msg: "Not found" });

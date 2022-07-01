@@ -105,3 +105,15 @@ describe("api/users/:user_id/:list_id post words to user word list", () => {
   //     });
   // });
 });
+
+describe.only("1. GET /api/word-lists", () => {
+  test("should return 200 if we pass a correctly formatted request", () => {
+    return request(app).get("/api/word-lists").expect(200);
+  });
+  test("should return an array of word-list objects", () => {
+    return request(app)
+      .get("/api/word-lists/1")
+      .expect(200)
+    .then((res)=> { console.log(res.body)})
+  })
+})

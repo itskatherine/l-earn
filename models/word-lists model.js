@@ -48,3 +48,20 @@ exports.insertWords = ({ user_id, list_id }) => {
     });
   });
 };
+
+
+exports.fetchWordListsById = (query) => {
+  console.log(query, "no u ")
+ 
+  let queryStr = `SELECT * FROM  all_words`;
+  if (query.word_list) {
+    if (listDifficulty.includes(list_difficulty)) {
+      queryStr += ` WHERE  all_words.list_i = '${query}' `;
+    } else return Promise.reject({ status: 400, msg: "invalid query" });
+  }
+  queryStr += " ;";
+
+  return db.query(queryStr).then(({ rows }) => {
+    return rows;
+  });
+};
