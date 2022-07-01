@@ -21,4 +21,4 @@ if (!process.env.PGDATABASE) {
     throw new Error("No PGDATABASE set up");
 }
 
-module.exports = new Pool();
+module.exports = new Pool(config);
