@@ -10,6 +10,7 @@ const {
   getUserWords,
   patchAmountByUser,
   deleteList,
+  getUserById,
 } = require("./controllers/user controller");
 
 app.use(cors());
@@ -21,6 +22,7 @@ app.post("/api/users/:user_id", postUser);
 app.get("/api/users/:user_id/word_bank", getUserWords);
 app.patch("/api/users/:user_id", patchAmountByUser);
 app.delete("/api/users/:user_id/:list_id", deleteList);
+app.get("/api/users/:user_id", getUserById);
 
 app.all("/*", (req, res) => {
   res.status(404).send({ msg: "Not found" });
@@ -45,6 +47,7 @@ app.use((err, req, res, next) => {
 // });
 
 app.use((err, req, res, next) => {
+  console.log(err);
   res.sendStatus(500);
 });
 

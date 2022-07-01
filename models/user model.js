@@ -55,3 +55,26 @@ exports.removeListById = (list_id) => {
     return Promise.reject({ status: 404, msg: "comment not found" });
   }
 };
+
+exports.fetchUserById = (users_id) => {
+  return db
+    .query(
+      `SELECT
+      users.users_id, 
+      users.first_name, 
+      users.last_name, 
+      users.email, 
+      users.amount_earned,
+      users.total_amount,
+      users.date_started,
+      users.weekly_pocket_money,
+      users.weekly_question_number FROM users WHERE users_id = $1;`,
+      [users_id]
+    )
+    .then(({ rows }) => {
+      if (!rows.length) {
+        return Promise.reject({ status: 404, msg: "not found" });
+      }
+      return rows[0];
+    });
+};
