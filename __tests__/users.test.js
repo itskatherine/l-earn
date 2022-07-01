@@ -57,7 +57,7 @@ describe("PATCH api/users/:user_id ", () => {
 });
 
 describe("DELETE api/users/:user_id/:list_id", () => {
-  test.only("status:204, responds with an empty response body", () => {
+  test("status:204, responds with an empty response body", () => {
     return request(app)
       .delete(`/api/users/2/1`)
       .expect(204)

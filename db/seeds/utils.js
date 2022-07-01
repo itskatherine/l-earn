@@ -7,14 +7,18 @@ exports.createRef = (arr, key, value) => {
   }, {});
 };
 
-
 exports.spelling_lists_2 = wordLists.map((wordObj) => {
- return wordObj.words.map((word) => {
-  return { name: wordObj.name, difficulty:  wordObj.difficulty, list_id: wordObj.list_id, word:word };
+  return wordObj.words.map((word) => {
+    return {
+      name: wordObj.name,
+      difficulty: wordObj.difficulty,
+      list_id: wordObj.list_id,
+      word: word,
+    };
+  });
+});
 
- })
-})
-
-
-
-
+exports.convertTimestampToDate = ({ date_started, ...otherProperties }) => {
+  if (!date_started) return { ...otherProperties };
+  return { date_started: new Date(date_started), ...otherProperties };
+};
