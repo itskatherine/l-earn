@@ -24,7 +24,10 @@ CREATE TABLE users(
     email VARCHAR, 
     pass_word VARCHAR,
     amount_earned INT,
-    total_amount INT
+    total_amount INT,
+    date_started TIMESTAMP DEFAULT NOW(),
+    weekly_pocket_money: INT,
+    weekly_question_number: INT,
 );
 SELECT * FROM users;
 

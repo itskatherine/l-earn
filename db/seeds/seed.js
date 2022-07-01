@@ -1,6 +1,10 @@
 const db = require("../index.js");
 const format = require("pg-format");
-const { createRef, spelling_lists_2 } = require("./utils");
+const {
+  createRef,
+  spelling_lists_2,
+  convertTimestampToDate,
+} = require("./utils");
 
 const spelling_list_data = spelling_lists_2;
 //console.log(spelling_list_data)
@@ -28,7 +32,7 @@ CREATE TABLE spelling_lists(
     name VARCHAR
 );
 `);
-//select from all_words where list_id = list_id 
+  //select from all_words where list_id = list_id
   const usersTablePromise = db.query(`CREATE TABLE users(
     users_id SERIAL PRIMARY KEY, 
     first_name VARCHAR NOT NULL, 
@@ -36,7 +40,10 @@ CREATE TABLE spelling_lists(
     email VARCHAR, 
     pass_word VARCHAR,
     amount_earned decimal,
-    total_amount decimal
+    total_amount decimal,
+    date_started TIMESTAMP DEFAULT NOW(),
+    weekly_pocket_money INT,
+    weekly_question_number INT
 );
 `);
 
@@ -45,7 +52,6 @@ CREATE TABLE spelling_lists(
     allWordsTablePromise,
     usersTablePromise,
   ]);
-
 
   await db.query(`CREATE TABLE user_words(
     user_word_id SERIAL PRIMARY KEY,
@@ -57,12 +63,11 @@ CREATE TABLE spelling_lists(
 );
 `);
 
-  1
-
-  
+  1;
+  const formattedTimeData = userData.map(convertTimestampToDate);
   const insertUsersQueryStr = format(
-    `INSERT INTO users (first_name, last_name, email, pass_word, amount_earned, total_amount) VALUES %L RETURNING *;`,
-    userData.map(
+    `INSERT INTO users (first_name, last_name, email, pass_word, amount_earned, total_amount, date_started, weekly_pocket_money, weekly_question_number) VALUES %L RETURNING *;`,
+    formattedTimeData.map(
       ({
         first_name,
         last_name,
@@ -70,6 +75,9 @@ CREATE TABLE spelling_lists(
         pass_word,
         amount_earned,
         total_amount,
+        date_started,
+        weekly_pocket_money,
+        weekly_question_number,
       }) => [
         first_name,
         last_name,
@@ -77,6 +85,9 @@ CREATE TABLE spelling_lists(
         pass_word,
         amount_earned,
         total_amount,
+        date_started,
+        weekly_pocket_money,
+        weekly_question_number,
       ]
     )
   );
