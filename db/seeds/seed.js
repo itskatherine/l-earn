@@ -8,9 +8,9 @@ const spelling_list_data = spelling_lists_2;
 const seed = async (data) => {
   const { userData, spellingListsData, allWordsData } = data;
   await db.query(`DROP TABLE IF EXISTS users CASCADE`);
-  await db.query(`DROP TABLE IF EXISTS user_words`);
-  await db.query(`DROP TABLE IF EXISTS all_words`);
-  await db.query(`DROP TABLE IF EXISTS spelling_lists`);
+  await db.query(`DROP TABLE IF EXISTS user_words CASCADE`);
+  await db.query(`DROP TABLE IF EXISTS all_words CASCADE`);
+  await db.query(`DROP TABLE IF EXISTS spelling_lists CASCADE`);
 
   const spellingListsTablePromise = db.query(`
 CREATE TABLE spelling_lists(
@@ -28,7 +28,7 @@ CREATE TABLE spelling_lists(
     name VARCHAR
 );
 `);
-
+//select from all_words where list_id = list_id 
   const usersTablePromise = db.query(`CREATE TABLE users(
     users_id SERIAL PRIMARY KEY, 
     first_name VARCHAR NOT NULL, 
@@ -46,15 +46,20 @@ CREATE TABLE spelling_lists(
     usersTablePromise,
   ]);
 
+
   await db.query(`CREATE TABLE user_words(
-    users_id SERIAL PRIMARY KEY REFERENCES users(users_id),
+    user_word_id SERIAL PRIMARY KEY,
     word_id INT REFERENCES all_words(word_id) NOT NULL,
+    users_id INT REFERENCES users(users_id),
     list_id INT REFERENCES spelling_lists(list_id) NOT NULL,
     word VARCHAR,
     used BOOLEAN
 );
 `);
 
+  1
+
+  
   const insertUsersQueryStr = format(
     `INSERT INTO users (first_name, last_name, email, pass_word, amount_earned, total_amount) VALUES %L RETURNING *;`,
     userData.map(

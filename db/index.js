@@ -6,7 +6,7 @@ require('dotenv').config({
     path: `${__dirname}/../.env.${ENV}`
 });
 
-console.log(process.env.PGDATABASE, "<<< PGDATABASE");
+//console.log(process.env.PGDATABASE, "<<< PGDATABASE");
 //console.log(process.env.NODE_ENV, "<<< NODE_ENV");
 
 const config =
