@@ -62,7 +62,7 @@ describe("DELETE api/users/:user_id/:list_id", () => {
       .delete(`/api/users/2/1`)
       .expect(204)
       .then((res) => {
-        expect(res).toEqual({});
+        expect(res.body).toEqual({});
       });
   });
 });
