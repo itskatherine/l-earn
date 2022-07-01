@@ -5,6 +5,7 @@ const db = require("../db/index");
 const seed = require("../db/seeds/seed");
 const testData = require("../db/data/test-data");
 const { string } = require("pg-format");
+const usersData = require("../db/data/test-data/usersData");
 
 beforeEach(() => {
   return seed(testData);
@@ -35,6 +36,51 @@ describe(" api/users/:user_id/word_bank", () => {
               used: expect.any(Boolean),
             });
           });
+      });
+  });
+});
+
+describe("POST api/users/:user_id creates user in a database", () => {
+  test("201: Returns status 201 for a user added to database", () => {
+    const newUser = {
+      first_name: "piotr",
+      last_name: "IsGreat",
+      email: "piotr@gmail.com",
+    };
+    return request(app)
+      .post("/api/users/2")
+      .send(newUser)
+      .expect(201)
+      .then((res) => {
+        expect.objectContaining({
+          user_id: expect.any(Number),
+          first_name: expect.any(String),
+          last_name: expect.any(String),
+          email: expect.any(String),
+        });
+      });
+  });
+});
+
+describe("GET api/users/:user_id gets user from a database", () => {
+  test("200: Returns a user from database", () => {
+    return request(app)
+      .get("/api/users/1")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.users).toEqual(
+          expect.objectContaining({
+            users_id: expect.any(Number),
+            first_name: expect.any(String),
+            last_name: expect.any(String),
+            email: expect.any(String),
+            weekly_pocket_money: expect.any(Number),
+            total_amount: expect.any(String),
+            amount_earned: expect.any(String),
+            date_started: expect.any(String),
+            weekly_question_number: expect.any(Number),
+          })
+        );
       });
   });
 });

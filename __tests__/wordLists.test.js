@@ -105,25 +105,3 @@ describe("api/users/:user_id/:list_id post words to user word list", () => {
   //     });
   // });
 });
-
-describe("POST api/users/:user_id creates user in a database", () => {
-  test("201: Returns status 201 for a user added to database", () => {
-    const newUser = {
-      first_name: "piotr",
-      last_name: "IsGreat",
-      email: "piotr@gmail.com",
-    };
-    return request(app)
-      .post("/api/users/2")
-      .send(newUser)
-      .expect(201)
-      .then((res) => {
-        expect.objectContaining({
-          user_id: expect.any(Number),
-          first_name: expect.any(String),
-          last_name: expect.any(String),
-          email: expect.any(String),
-        });
-      });
-  });
-});

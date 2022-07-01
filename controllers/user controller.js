@@ -3,6 +3,7 @@ const {
   fetchUserWords,
   updateAmountByUser,
   removeListById,
+  fetchUserById,
 } = require("../models/user model");
 
 exports.postUser = (req, res) => {
@@ -28,7 +29,18 @@ exports.patchAmountByUser = (req, res, next) => {
 };
 
 exports.deleteList = (req, res) => {
-  const { list_id } = req.params;
+  const list_id = req.params;
   removeListById(list_id);
   res.sendStatus(204);
+};
+
+exports.getUserById = (req, res, next) => {
+  const users_id = req.params.user_id;
+  fetchUserById(users_id)
+    .then((users) => {
+      res.status(200).send({ users });
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
