@@ -26,6 +26,7 @@ exports.getUserWords = (req, res) => {
 exports.patchAmountByUser = (req, res, next) => {
   const { amount_earned, total_amount } = req.body;
   const { user_id } = req.params;
+  console.log(user_id, "user id");
   updateAmountByUser(amount_earned, total_amount, user_id)
     .then((updatedAmounts) => {
       res.status(200).send(updatedAmounts);

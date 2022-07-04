@@ -19,7 +19,7 @@ app.use(express.json());
 
 app.get("/api/word-lists", getWordLists);
 app.post("/api/users/:user_id/:list_id", postWords);
-app.post("/api/users/:user_id", postUser);
+app.post("/api/users/", postUser);
 app.get("/api/users/:user_id/word_bank", getUserWords);
 app.patch("/api/users/:user_id", patchAmountByUser);
 app.patch("/api/users/:user_id/settings", patchWeeklyByUser);

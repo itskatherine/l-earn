@@ -38,10 +38,10 @@ CREATE TABLE spelling_lists(
     last_name VARCHAR, 
     email VARCHAR, 
     pass_word VARCHAR,
-    amount_earned decimal,
-    total_amount decimal,
+    amount_earned DECIMAL(10,2),
+    total_amount DECIMAL(10,2),
     date_started TIMESTAMP DEFAULT NOW(),
-    weekly_pocket_money INT,
+    weekly_pocket_money DECIMAL(10,2),
     weekly_question_number INT
 );
 `);

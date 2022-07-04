@@ -7,8 +7,8 @@ exports.insertUser = (newUser) => {
   const { first_name, last_name, email } = newUser;
   return db
     .query(
-      "INSERT INTO users (first_name, last_name, email) VALUES ($1, $2, $3) RETURNING *;",
-      [first_name, last_name, email]
+      "INSERT INTO users (first_name, last_name, email, amount_earned, total_amount,weekly_pocket_money ) VALUES ($1, $2, $3,$4,$5,$6) RETURNING *;",
+      [first_name, last_name, email, 0.0, 0.0, 0.0]
     )
     .then(({ rows }) => {
       return rows[0];
