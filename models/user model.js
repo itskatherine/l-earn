@@ -17,7 +17,7 @@ exports.insertUser = (newUser) => {
 
 exports.fetchUserWords = (user_id) => {
   return db
-    .query("SELECT * FROM user_words WHERE user_id = 1;")
+    .query("SELECT * FROM user_words WHERE user_id = $1;", [user_id])
     .then((queryRes) => {
       return queryRes.rows;
     });
