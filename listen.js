@@ -1,6 +1,7 @@
 const app = require("./app");
-const db = require("./db/index");
+const PORT = 9090;
 
-const { PORT = 9090 } = process.env;
+app.listen(process.env.PORT || PORT, () => {
+  console.log(`listening on ${PORT}`);
+});
 
-app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
