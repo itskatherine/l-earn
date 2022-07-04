@@ -4,6 +4,7 @@ const app = express();
 const {
   getWordLists,
   postWords,
+  getWordListById,
 } = require("./controllers/word-lists controller");
 const {
   postUser,
@@ -18,6 +19,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/api/word-lists", getWordLists);
+app.get("/api/word-lists/:list_id", getWordListById);
 app.post("/api/users/:user_id/:list_id", postWords);
 app.post("/api/users/", postUser);
 app.get("/api/users/:user_id/word_bank", getUserWords);
