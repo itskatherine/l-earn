@@ -48,7 +48,7 @@ describe("POST api/users/:user_id creates user in a database", () => {
       email: "piotr@gmail.com",
     };
     return request(app)
-      .post("/api/users/2")
+      .post("/api/users")
       .send(newUser)
       .expect(201)
       .then((res) => {
@@ -74,7 +74,7 @@ describe("GET api/users/:user_id gets user from a database", () => {
             first_name: expect.any(String),
             last_name: expect.any(String),
             email: expect.any(String),
-            weekly_pocket_money: expect.any(Number),
+            weekly_pocket_money: expect.any(String),
             total_amount: expect.any(String),
             amount_earned: expect.any(String),
             date_started: expect.any(String),
@@ -103,7 +103,7 @@ describe("PATCH api/users/:user_id ", () => {
   test("200: Returns weekly pocket money and weekly question number amount updated by the provided number", () => {
     const req = { weekly_pocket_money: 1, weekly_question_number: 15 };
     const expected = {
-      weekly_pocket_money: 1,
+      weekly_pocket_money: "1.00",
       weekly_question_number: 15,
     };
     return request(app)

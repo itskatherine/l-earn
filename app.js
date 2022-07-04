@@ -10,7 +10,7 @@ const {
   getUserWords,
   patchAmountByUser,
   patchWeeklyByUser,
-  deleteList,
+  deleteUserWordList,
   getUserById,
 } = require("./controllers/user controller");
 
@@ -23,7 +23,7 @@ app.post("/api/users/", postUser);
 app.get("/api/users/:user_id/word_bank", getUserWords);
 app.patch("/api/users/:user_id", patchAmountByUser);
 app.patch("/api/users/:user_id/settings", patchWeeklyByUser);
-app.delete("/api/users/:user_id/:list_id", deleteList);
+app.delete("/api/users/:user_id/:list_id", deleteUserWordList);
 app.get("/api/users/:user_id", getUserById);
 
 app.all("/*", (req, res) => {

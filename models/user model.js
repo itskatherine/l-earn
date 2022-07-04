@@ -66,9 +66,12 @@ exports.updateWeeklyByUser = (
     });
 };
 
-exports.removeListById = (list_id) => {
+exports.removeUserWordListById = (list_id, user_id) => {
   const numberOfDeletions = db
-    .query(`DELETE FROM user_words WHERE list_id = $1;`, [list_id])
+    .query(`DELETE FROM user_words WHERE list_id = $1 AND user_id = $2;`, [
+      list_id,
+      user_id,
+    ])
     .then((result) => {
       return result.rowCount;
     });

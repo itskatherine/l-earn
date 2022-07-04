@@ -98,7 +98,7 @@ describe("POST api/users/:user_id/:list_id post words to user word list", () => 
   });
   test("400: Returns the bed request message when passed an invalid user_id", () => {
     return request(app)
-      .get("/api/users/five/1")
+      .get("/api/users/five")
       .expect(400)
       .then(({ body }) => {
         expect(body.msg).toBe("Bad request");

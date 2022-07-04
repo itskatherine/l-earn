@@ -3,7 +3,7 @@ const {
   fetchUserWords,
   updateAmountByUser,
   updateWeeklyByUser,
-  removeListById,
+  removeUserWordListById,
   fetchUserById,
 } = require("../models/user model");
 
@@ -14,13 +14,12 @@ exports.postUser = (req, res) => {
 };
 
 exports.getUserWords = (req, res) => {
-  fetchUserWords(req.params.user_id)
-    .then((userWords) => {
-      res.status(200).send({ userWords });
-    })
-    .catch((err) => {
-      next(err);
-    });
+  fetchUserWords(req.params.user_id).then((userWords) => {
+    res.status(200).send({ userWords });
+  });
+  // .catch((err) => {
+  //   next(err);
+  // });
 };
 
 exports.patchAmountByUser = (req, res, next) => {
@@ -48,9 +47,9 @@ exports.patchWeeklyByUser = (req, res, next) => {
     });
 };
 
-exports.deleteList = (req, res) => {
-  const list_id = req.params;
-  removeListById(list_id);
+exports.deleteUserWordList = (req, res) => {
+  const { list_id, user_id } = req.params;
+  removeUserWordListById(list_id, user_id);
   res.sendStatus(204);
 };
 
