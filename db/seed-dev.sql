@@ -5,7 +5,7 @@ CREATE DATABASE l_earn;
 
 CREATE TABLE spelling_lists(
     list_id SERIAL PRIMARY KEY,
-     list_difficulty VARCHAR NOT NULL,
+    list_difficulty VARCHAR NOT NULL,
     list_name VARCHAR
 );
 SELECT * FROM spelling_lists;
@@ -18,7 +18,7 @@ CREATE TABLE all_words(
 SELECT * FROM all_words;
 
 CREATE TABLE users(
-    users_id SERIAL PRIMARY KEY, 
+    user_id SERIAL PRIMARY KEY, 
     first_name VARCHAR NOT NULL, 
     last_name VARCHAR, 
     email VARCHAR, 
@@ -33,7 +33,7 @@ SELECT * FROM users;
 
 
 CREATE TABLE user_words(
-    users_id SERIAL PRIMARY KEY REFERENCES users(users_id),
+    user_id SERIAL PRIMARY KEY REFERENCES users(user_id),
     word_id INT REFERENCES all_words(word_id) NOT NULL,
     list_id INT REFERENCES spelling_lists(list_id) NOT NULL,
     word VARCHAR,

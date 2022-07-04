@@ -3,6 +3,23 @@ const req = require("express/lib/request");
 const db = require("../db/index");
 const format = require("pg-format");
 
+exports.fetchWordListById = (list_id) => {
+  const responseObj = {};
+
+  const queryStr = `SELECT * from all_words WHERE list_id = $1`;
+
+  return db.query(queryStr, [list_id]).then(({ rows }) => {
+    responseObj.list_difficulty = rows[0].difficulty;
+    responseObj.list_name = rows[0].name;
+    const wordArr = [];
+    for (let i = 0; i < rows.length; i++) {
+      wordArr.push(rows[i].word);
+    }
+    responseObj.words = wordArr;
+    return responseObj;
+  });
+};
+
 exports.fetchWordLists = (query) => {
   const list_difficulty = query.word_list;
   const listDifficulty = ["Easy", "Medium", "Hard", "Harder"];
@@ -40,7 +57,7 @@ exports.insertWords = ({ user_id, list_id }) => {
     });
 
     const wordListQueryString = format(
-      `INSERT INTO user_words(users_id, word, word_id, list_id) VALUES %L RETURNING *;`,
+      `INSERT INTO user_words(user_id, word, word_id, list_id) VALUES %L RETURNING *;`,
       wordsArr
     );
     db.query(wordListQueryString).then((result) => {

@@ -15,7 +15,7 @@ afterAll(() => {
 });
 
 describe("1. GET /api/word-lists", () => {
-  test("should return 200 if we pass a correctly formatted request", () => {
+  test("200: should return 200 if we pass a correctly formatted request", () => {
     return request(app).get("/api/word-lists").expect(200);
   });
   test("should return an array of word-list objects", () => {
@@ -28,7 +28,7 @@ describe("1. GET /api/word-lists", () => {
         expect(results).toBe(true);
       });
   });
-  test("should return an array of object with the correct key value pairs", () => {
+  test("200: should return an array of object with the correct key value pairs", () => {
     return request(app)
       .get("/api/word-lists")
       .expect(200)
@@ -69,7 +69,7 @@ describe("GET /api/word-lists/:List_difficulty", () => {
         ]);
       });
   });
-  test('should return 400 and message "bad query" when passed an invalid query', () => {
+  test('400: should return 400 and message "bad query" when passed an invalid query', () => {
     return request(app)
       .get("/api/word-lists?word_list=Hippo")
       .expect(400)
@@ -79,8 +79,8 @@ describe("GET /api/word-lists/:List_difficulty", () => {
   });
 });
 
-describe("api/users/:user_id/:list_id post words to user word list", () => {
-  test("should return 201 and message list added when given valid user and and list id", () => {
+describe("POST api/users/:user_id/:list_id post words to user word list", () => {
+  test("201: should return 201 and message list added when given valid user and and list id", () => {
     return request(app)
       .post("/api/users/1/1")
       .expect(201)
@@ -88,7 +88,7 @@ describe("api/users/:user_id/:list_id post words to user word list", () => {
         expect(body.msg).toBe("List added");
       });
   });
-  test("POST status:404, when given a non-existent user_id", () => {
+  test("404: when given a non-existent user_id", () => {
     return request(app)
       .post("/api/users/1000")
       .expect(404)
@@ -96,12 +96,28 @@ describe("api/users/:user_id/:list_id post words to user word list", () => {
         expect(body.msg).toBe("Not found");
       });
   });
-  // test.only("400: Returns the bed request message when passed an invalid user_id", () => {
-  //   return request(app)
-  //     .get("/api/users/five/1")
-  //     .expect(400)
-  //     .then(({ body }) => {
-  //       expect(body.msg).toBe("Bad request");
-  //     });
-  // });
+  test("400: Returns the bed request message when passed an invalid user_id", () => {
+    return request(app)
+      .get("/api/users/five")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad request");
+      });
+  });
+});
+
+describe("GET /api/word-lists/:list_id", () => {
+  test("200: Returns the word-list object when passed list id", () => {
+    const expected = {
+      list_difficulty: "Easy",
+      list_name: "Grade 1 spelling",
+      words: ["the", "we", "pull", "a", "no", "full", "do"],
+    };
+    return request(app)
+      .get("/api/word-lists/1")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toEqual(expected);
+      });
+  });
 });

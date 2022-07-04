@@ -4,12 +4,14 @@ const app = express();
 const {
   getWordLists,
   postWords,
+  getWordListById,
 } = require("./controllers/word-lists controller");
 const {
   postUser,
   getUserWords,
   patchAmountByUser,
-  deleteList,
+  patchWeeklyByUser,
+  deleteUserWordList,
   getUserById,
 } = require("./controllers/user controller");
 
@@ -17,11 +19,13 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/api/word-lists", getWordLists);
+app.get("/api/word-lists/:list_id", getWordListById);
 app.post("/api/users/:user_id/:list_id", postWords);
-app.post("/api/users/:user_id", postUser);
+app.post("/api/users/", postUser);
 app.get("/api/users/:user_id/word_bank", getUserWords);
 app.patch("/api/users/:user_id", patchAmountByUser);
-app.delete("/api/users/:user_id/:list_id", deleteList);
+app.patch("/api/users/:user_id/settings", patchWeeklyByUser);
+app.delete("/api/users/:user_id/:list_id", deleteUserWordList);
 app.get("/api/users/:user_id", getUserById);
 
 app.all("/*", (req, res) => {
@@ -38,17 +42,15 @@ app.use((err, req, res, next) => {
   } else next(err);
 });
 
-// app.use((err, req, res, next) => {
-//   if (err.status === 404 || 400) {
-//     res.status(err.status).send({ msg: err.msg });
-//   } else {
-//     next(err);
-//   }
-// });
+app.use((err, req, res, next) => {
+  if (err.status && err.msg) {
+    res.status(err.status).send({ msg: err.msg });
+  } else next(err);
+});
 
 app.use((err, req, res, next) => {
   console.log(err);
-  res.sendStatus(500);
+  res.status(500).send({ msg: "Internal server error" });
 });
 
 module.exports = app;
