@@ -9,6 +9,7 @@ const {
   postUser,
   getUserWords,
   patchAmountByUser,
+  patchWeeklyByUser,
   deleteList,
   getUserById,
 } = require("./controllers/user controller");
@@ -21,6 +22,7 @@ app.post("/api/users/:user_id/:list_id", postWords);
 app.post("/api/users/:user_id", postUser);
 app.get("/api/users/:user_id/word_bank", getUserWords);
 app.patch("/api/users/:user_id", patchAmountByUser);
+app.patch("/api/users/:user_id/settings", patchWeeklyByUser);
 app.delete("/api/users/:user_id/:list_id", deleteList);
 app.get("/api/users/:user_id", getUserById);
 
@@ -38,17 +40,15 @@ app.use((err, req, res, next) => {
   } else next(err);
 });
 
-// app.use((err, req, res, next) => {
-//   if (err.status === 404 || 400) {
-//     res.status(err.status).send({ msg: err.msg });
-//   } else {
-//     next(err);
-//   }
-// });
+app.use((err, req, res, next) => {
+  if (err.status && err.msg) {
+    res.status(err.status).send({ msg: err.msg });
+  } else next(err);
+});
 
 app.use((err, req, res, next) => {
   console.log(err);
-  res.sendStatus(500);
+  res.status(500).send({ msg: "Internal server error" });
 });
 
 module.exports = app;

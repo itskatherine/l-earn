@@ -17,7 +17,7 @@ exports.insertUser = (newUser) => {
 
 exports.fetchUserWords = (user_id) => {
   return db
-    .query("SELECT * FROM user_words WHERE users_id = 1;")
+    .query("SELECT * FROM user_words WHERE user_id = 1;")
     .then((queryRes) => {
       return queryRes.rows;
     });
@@ -29,7 +29,7 @@ exports.updateAmountByUser = (amount_earned, total_amount, user_id) => {
       `UPDATE users
        SET amount_earned = amount_earned + $1,
        total_amount = total_amount + $2
-       WHERE users_id = $3
+       WHERE user_id = $3
        RETURNING amount_earned, total_amount;`,
       [amount_earned, total_amount, user_id]
     )
@@ -41,6 +41,28 @@ exports.updateAmountByUser = (amount_earned, total_amount, user_id) => {
       response.amount_earned = Number(response.amount_earned);
       response.total_amount = Number(response.total_amount);
       return response;
+    });
+};
+
+exports.updateWeeklyByUser = (
+  weekly_pocket_money,
+  weekly_question_number,
+  user_id
+) => {
+  return db
+    .query(
+      `UPDATE users
+       SET weekly_pocket_money = $1,
+       weekly_question_number = $2
+       WHERE user_id = $3
+       RETURNING weekly_pocket_money, weekly_question_number;`,
+      [weekly_pocket_money, weekly_question_number, user_id]
+    )
+    .then(({ rows }) => {
+      if (!rows.length) {
+        return Promise.reject({ status: 404, msg: "not found" });
+      }
+      return rows[0];
     });
 };
 
@@ -56,20 +78,20 @@ exports.removeListById = (list_id) => {
   }
 };
 
-exports.fetchUserById = (users_id) => {
+exports.fetchUserById = (user_id) => {
   return db
     .query(
       `SELECT
-      users.users_id, 
-      users.first_name, 
-      users.last_name, 
-      users.email, 
-      users.amount_earned,
-      users.total_amount,
-      users.date_started,
-      users.weekly_pocket_money,
-      users.weekly_question_number FROM users WHERE users_id = $1;`,
-      [users_id]
+      user_id, 
+      first_name, 
+      last_name, 
+      email, 
+      amount_earned,
+      total_amount,
+      date_started,
+      weekly_pocket_money,
+      weekly_question_number FROM users WHERE user_id = $1;`,
+      [user_id]
     )
     .then(({ rows }) => {
       if (!rows.length) {

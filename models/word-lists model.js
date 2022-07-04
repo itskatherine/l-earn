@@ -40,7 +40,7 @@ exports.insertWords = ({ user_id, list_id }) => {
     });
 
     const wordListQueryString = format(
-      `INSERT INTO user_words(users_id, word, word_id, list_id) VALUES %L RETURNING *;`,
+      `INSERT INTO user_words(user_id, word, word_id, list_id) VALUES %L RETURNING *;`,
       wordsArr
     );
     db.query(wordListQueryString).then((result) => {

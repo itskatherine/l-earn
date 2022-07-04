@@ -7,7 +7,6 @@ const {
 } = require("./utils");
 
 const spelling_list_data = spelling_lists_2;
-//console.log(spelling_list_data)
 
 const seed = async (data) => {
   const { userData, spellingListsData, allWordsData } = data;
@@ -34,7 +33,7 @@ CREATE TABLE spelling_lists(
 `);
   //select from all_words where list_id = list_id
   const usersTablePromise = db.query(`CREATE TABLE users(
-    users_id SERIAL PRIMARY KEY, 
+    user_id SERIAL PRIMARY KEY, 
     first_name VARCHAR NOT NULL, 
     last_name VARCHAR, 
     email VARCHAR, 
@@ -56,7 +55,7 @@ CREATE TABLE spelling_lists(
   await db.query(`CREATE TABLE user_words(
     user_word_id SERIAL PRIMARY KEY,
     word_id INT REFERENCES all_words(word_id) NOT NULL,
-    users_id INT REFERENCES users(users_id),
+    user_id INT REFERENCES users(user_id),
     list_id INT REFERENCES spelling_lists(list_id) NOT NULL,
     word VARCHAR,
     used BOOLEAN
