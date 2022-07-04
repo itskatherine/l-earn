@@ -105,3 +105,19 @@ describe("POST api/users/:user_id/:list_id post words to user word list", () => 
       });
   });
 });
+
+describe("GET /api/word-lists/:list_id", () => {
+  test("200: Returns the word-list object when passed list id", () => {
+    const expected = {
+      list_difficulty: "Easy",
+      list_name: "Grade 1 spelling",
+      words: ["the", "we", "pull", "a", "no", "full", "do"],
+    };
+    return request(app)
+      .get("/api/word-lists/1")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toEqual(expected);
+      });
+  });
+});
